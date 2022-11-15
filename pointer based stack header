@@ -1,0 +1,106 @@
+#ifndef STACK
+#define STACK
+#include<string>
+using namespace std;
+#include<iostream>
+
+class StackException {
+
+public:
+	StackException(const string& err) : error(err) {}
+	string error;
+};
+
+template <class N>
+class Node
+{
+public:
+	N item;
+	Node* next;
+
+	Node(const N& i = N(), Node* n = NULL) : item(i), next(n) {}
+};
+
+template <class T>
+class Stack {
+private:
+	Node<T>* topPtr;
+public:
+	Stack() :topPtr ( NULL){};
+	Stack(const Stack& rhs) { *this = rhs; }
+
+	~Stack() {
+		while (!isEmpty())
+			pop();
+	}
+	Stack& operator=(const Stack& rhs) {
+		if (this != &rhs) {
+			if (!rhs.topPtr)
+				topPtr = NULL;
+			else {
+				topPtr = new Node<T>;
+				topPtr->item = rhs.topPtr->item;
+				Node<T>* q = rhs.topPtr->next;
+				Node<T>* p = topPtr;
+				while (q) {
+					p->next = new Node<T>;
+					p->next->item = q->item;
+					p = p->next;
+					q = q->next;
+				}
+				p->next = NULL;
+			}
+		}
+		return *this;
+	}
+	bool isEmpty() const { return topPtr == NULL; }
+
+	void push(const T& newitem) {
+		Node<T>* newPtr = new Node<T>;
+		newPtr->item = newitem;
+		newPtr->next = topPtr;
+		topPtr = newPtr;
+		cout << newPtr->item << endl;
+	}
+	void pop() {
+	
+		if (isEmpty())
+			throw StackException("Stack error: Stack is empty\n");
+		else {
+			Node<T>* tmp = topPtr;
+			topPtr = topPtr->next;
+			delete tmp;
+		}
+
+	}
+
+	void TopAndPop(T& stackTop) {
+		if (isEmpty())
+			throw StackException("Stack error: Stack is empty\n ");
+		else {
+			stackTop = topPtr->item;
+			Node<T>* tmp = topPtr;
+			topPtr = topPtr->next; // update the stack top
+			delete tmp;
+		}
+	}
+
+	void getTop(T& stackTop)const {
+		if (isEmpty())
+			throw StackException("StackException: stack empty on getTop");
+		else
+			stackTop = topPtr->item;
+	}
+
+
+
+};
+
+
+
+
+
+
+
+
+#endif
