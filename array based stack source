@@ -1,0 +1,25 @@
+#include<iostream>
+#include "Header.h"
+using namespace std;
+
+int main() {
+
+	Stack<int> s;
+	cout << "printing s: \n";
+	for (int i = 0; i < 10; i++)
+	{
+		s.push(i);
+		cout << i << endl;
+	}
+
+	Stack<int>s2 = s;
+	
+	cout << "Printing s2:" << endl;
+	while (!s2.isEmpty()) {
+		int value;
+		s2.topAndPop(value);
+		cout << value << endl;
+	}
+
+
+}
