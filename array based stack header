@@ -1,0 +1,56 @@
+#ifndef STACK
+#define STACK
+#include<iostream>
+#include<string>
+using namespace std;
+
+class StackException {
+public:
+	StackException(const string& err) : error(err) {}
+	string error;
+};
+
+const int MAX_STACK = 10;
+template  <class T>
+class Stack {
+public:
+	Stack() :top(-1) {}
+	bool isEmpty()const { return top < 0; }
+	void push(const T& newitem) {
+		if (top >= MAX_STACK - 1)
+			throw StackException("Stack error: stack is full\n");
+		else
+			items[++top] = newitem;
+	}
+	void pop() {
+		if (isEmpty())
+			throw StackException("Stack error: stack is empty\n");
+		else
+			--top;
+	}
+	void topAndPop(T& stackTop) {
+		if (isEmpty())
+			throw StackException("Stack error : stack is empty\n");
+		else
+			stackTop = items[top--];
+
+	}
+	void getTop(T& stackTop)const {
+		if (isEmpty())
+			throw StackException("Stack error: stack is empty\n");
+		else
+			stackTop = items[top];
+	}
+
+private:
+	T items[MAX_STACK];
+	int top;
+
+
+};
+
+
+
+
+
+#endif
